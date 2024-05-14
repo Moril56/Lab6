@@ -1,0 +1,70 @@
+#include <stdio.h>
+#include <stdlib.h>
+#include <time.h>
+
+int main() {
+    srand(time(NULL)); // Ініціалізація генератора випадкових чисел
+
+    int rows, columns;
+
+    printf("Введіть кількість рядків: ");
+    scanf("%d", &rows);
+
+    printf("Введіть кількість стовпців: ");
+    scanf("%d", &columns);
+
+    // Оголошення матриці дійсних чисел
+    double matrix[rows][columns];
+
+    // Заповнення матриці випадковими числами
+    for (int i = 0; i < rows; i++) {
+        for (int j = 0; j < columns; j++) {
+            matrix[i][j] = rand() % 201 - 100; // Рандомне число від -100 до 100
+        }
+    }
+
+    // Виведення початкової матриці
+    printf("Початкова матриця:\n");
+    for (int i = 0; i < rows; i++) {
+        for (int j = 0; j < columns; j++) {
+            printf("%.2lf\t", matrix[i][j]);
+        }
+        printf("\n");
+    }
+
+    // Знаходження рядка з мінімальним добутком елементів
+    double minProduct = 1e9; // Ініціалізація максимальною можливою величиною
+    int minIndex = -1;
+
+    for (int i = 0; i < rows; i++) {
+        double product = 1.0;
+        for (int j = 0; j < columns; j++) {
+            product *= matrix[i][j];
+        }
+        if (product < minProduct) {
+            minProduct = product;
+            minIndex = i;
+        }
+    }
+
+    // Видалення рядка з мінімальним добутком елементів
+    if (minIndex != -1) {
+        for (int i = minIndex; i < rows - 1; i++) {
+            for (int j = 0; j < columns; j++) {
+                matrix[i][j] = matrix[i + 1][j];
+            }
+        }
+        rows--; // Зменшення кількості рядків
+    }
+
+    // Виведення кінцевої матриці
+    printf("\nКінцева матриця без рядка з мінімальним добутком елементів:\n");
+    for (int i = 0; i < rows; i++) {
+        for (int j = 0; j < columns; j++) {
+            printf("%.2lf\t", matrix[i][j]);
+        }
+        printf("\n");
+    }
+
+    return 0;
+}
